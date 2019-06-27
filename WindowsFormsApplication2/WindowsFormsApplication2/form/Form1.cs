@@ -63,7 +63,8 @@ namespace WindowsFormsApplication2
                 DialogResult result = addHolForm.ShowDialog(this);
                 holydayn.FirstDate = addHolForm.dateTimePicker1.Value;
 
-               
+
+                holydayn.IndexDate = false;
                 addHolForm.dateTimePicker2.MaxDate= addHolForm.dateTimePicker1.Value.AddDays(holydayn.People.Day);
               holydayn.SecontDate = addHolForm.dateTimePicker2.Value;
                 db.HolyDays.Add(holydayn);

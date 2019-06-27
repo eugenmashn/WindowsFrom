@@ -12,6 +12,7 @@ namespace WindowsFormsApplication2
         public DateTime FirstDate { get; set; }
         public DateTime SecontDate { get; set; }
         public People People { get; set; }
+        public bool IndexDate { get;set; }
         public int Peopleid { get; set; }
 
     }
