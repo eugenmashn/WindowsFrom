@@ -13,25 +13,34 @@ namespace WindowsFormsApplication2
     public partial class Sort : Form
     {
         People peopl;
+        HolyDay holydays;
         WorkerContext _db;
+        int _Id;
         int YearIndex;
-        public Sort()
+        public Sort(int Id, string name,string lastName)
         {
+            _Id = Id;
             InitializeComponent();
             _db = new WorkerContext();
             _db.Peoples.Load();
-            YearIndex = 2018;
-            if (_db.Peoples.Count(i => i.Year == YearIndex)<1) {
+            _db.HolyDays.Load();
+            linkLabel2.Text = name;
+            linkLabel3.Text = lastName;
+            peopl = _db.Peoples.Find(_Id);
+            YearIndex =peopl.Year;
+            numericUpDown1.Value = YearIndex;
+            if (_db.HolyDays.Count(i => i.FirstDate.Year == YearIndex)<1) {
                     MessageBox.Show("Don`t booked");
                
             }
             else {
 
                 BindingSource DatedbOne = new BindingSource();
-                var DatedbOnek = from w in _db.Peoples.Local
-                                where w.Year == YearIndex
+                var DatedbOnek = from w in _db.HolyDays.Local
+                                where w.FirstDate.Year == YearIndex
+                                where w.People.Id==_Id
                                 select w;
-                var qieryAsList = new BindingList<People>(DatedbOnek.ToList());
+                var qieryAsList = new BindingList<HolyDay>(DatedbOnek.ToList());
                 DatedbOne.DataSource = qieryAsList;
                 dataGridView1.DataSource = DatedbOne;
 
@@ -46,7 +55,7 @@ namespace WindowsFormsApplication2
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             YearIndex = (int)numericUpDown1.Value;
-            if (_db.Peoples.Count(i => i.Year == YearIndex) < 1)
+            if (_db.HolyDays.Count(i => i.FirstDate.Year == YearIndex) < 1)
             {
                 MessageBox.Show("Don`t booked");
 
@@ -55,10 +64,11 @@ namespace WindowsFormsApplication2
             {
 
                 BindingSource DatedbOne = new BindingSource();
-                var DatedbOnek = from w in _db.Peoples.Local
-                                 where w.Year == YearIndex
+                var DatedbOnek = from w in _db.HolyDays.Local
+                                 where w.FirstDate.Year == YearIndex
+                                 where w.People.Id==_Id
                                  select w;
-                var qieryAsList = new BindingList<People>(DatedbOnek.ToList());
+                var qieryAsList = new BindingList<HolyDay>(DatedbOnek.ToList());
                 DatedbOne.DataSource = qieryAsList;
                 dataGridView1.DataSource = DatedbOne;
 
